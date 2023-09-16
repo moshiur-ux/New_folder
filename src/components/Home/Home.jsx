@@ -1,8 +1,14 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/no-unknown-property */
 import { useEffect, useState } from 'react';
 import './Home.css'
 import Cart from '../Cart/Cart';
+import { FaDonate} from "react-icons/fa";
+import {FaWpforms} from "react-icons/fa";
+
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () => {
 const[allActors,setAllactors]=useState([])
@@ -21,14 +27,19 @@ useEffect(()=>
 
 },[])
 
+const notify=(actor)=>
+       {
+        toast("First notification");
+       }
 
 const handleSelectActor=(actor)=>
   {
+
     const isExist =selectedActors.find(item=>item.id==actor.id)
   let count =actor.Credit;
     if(isExist)
     {
-       return alert("Already Done")
+       return toast("You can't add again, Because this was exist already");
     }
     else{
        selectedActors.forEach((item)=>
@@ -40,7 +51,7 @@ const handleSelectActor=(actor)=>
     
        if(count>=20)
        {
-        return alert("credit ses ar hobe na ")
+        return toast("You can't add more, Because your remaning credit are over");
 
        }
        else{
@@ -89,12 +100,14 @@ const handleSelectActor=(actor)=>
                       <h2 class="card-title font-bold">{actor.name}</h2>
                       <p className='font-semibold'>{actor.Details}</p>
                       <div className='flex justify-between gap-6'>
-                        <p>Price:{actor.price}</p>
-                        <p>Credit:{actor.Credit} hr</p>
+                        <p className='flex justify-between gap-2 text-sm'>< FaDonate/> Price:{actor.price}</p>
+                        <p className='flex justify-between gap-1'> <FaWpforms/>Credit:{actor.Credit}hr</p>
 
                       </div>
                       <div class="card-actions">
-                        <button onClick={()=>handleSelectActor(actor)} class="btn btn-info btn-wide">Selected</button>
+                        <button onClick={()=>handleSelectActor(actor)} class="btn btn-info ">Selected</button>
+                        
+                        <ToastContainer />
                       </div>
                     </div>
                   </div>
@@ -108,7 +121,7 @@ const handleSelectActor=(actor)=>
       </div>
 
       <div>
-        <h2><Cart selectedActors={selectedActors} remaining={remaining}  totalCost={totalCost}></Cart></h2>
+        <h2><Cart selectedActors={selectedActors} remaining={remaining}   totalCost={totalCost}></Cart></h2>
       </div>
 
       </div>
